@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssm.mapper.DepartmentMapper">
+
+<resultMap type="com.ssm.pojo.Department" id="departmentList">
+		<result property="departmentid" column="departmentid"/>
+		<result property="departmentCode" column="departmentCode"/>
+		<result property="departmentName" column="departmentName"/>
+		<result property="departmentManager" column="departmentManager"/>
+		
+		
+	</resultMap>
+	<!-- 通过id查询部门 -->
+	<select id="getDepartmentById" resultType="com.ssm.pojo.Department">
+	select * from hotel_department where departmentid=#{departmentid}
+	</select>
+	<!-- 查询全部部门 -->
+	<select id="getAllDepartment" resultMap="departmentList">
+	select * from hotel_department
+	</select>
+	<!--添加  -->
+	<insert id="add" parameterType="com.ssm.pojo.Department">
+		insert into hotel_department (departmentCode,departmentName,departmentManager,managerName) 
+				values (#{departmentCode},#{departmentName},#{departmentManager},#{managerName})
+	</insert>
+	
+	<!-- //更新部门信息 -->
+	<update id="modifyDepartment" parameterType="com.ssm.pojo.Department">
+	 update hotel_department 
+		 <trim prefix="set" suffixOverrides="," suffix="where id = #{id}">
+	 		<if test="departmentCode != null">departmentCode=#{departmentCode},</if>
+			<if test="departmentName != null">departmentName=#{departmentName},</if>
+			<if test="departmentManager != null">departmentManager=#{departmentManager},</if>
+			<if test="managerName != null">managerName=#{managerName},</if>
+		
+		 </trim>
+	</update>
+	<!-- //删除部门 -->
+	<delete id="deleteDepartmentById" parameterType="Integer">
+		delete from hotel_department where departmentid=#{departmentid}
+	</delete>
+</mapper>

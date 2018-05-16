@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<!-- 通过这个配置文件完成mybatis与数据库的连接 -->
+<configuration>
+
+	<!-- 将mapper文件加入到配置文件中 -->
+	<mappers>
+		<mapper resource="com/ssm/mapper/UserMapper.xml"/>
+		<mapper resource="com/ssm/mapper/CustomerMapper.xml"/>
+		<mapper resource="com/ssm/mapper/DepartmentMapper.xml"/>
+		<mapper resource="com/ssm/mapper/OrderMapper.xml"/>
+		<mapper resource="com/ssm/mapper/PositionMapper.xml"/>
+		<mapper resource="com/ssm/mapper/RoomMapper.xml"/>
+		<mapper resource="com/ssm/mapper/RoomtypeMapper.xml"/>
+	</mappers>
+
+
+
+</configuration>

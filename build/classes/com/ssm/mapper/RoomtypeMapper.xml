@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssm.mapper.RoomtypeMapper">
+
+<!-- 获取用户列表信息... -->
+	<resultMap type="com.ssm.pojo.Roomtype" id="roomtypeList">
+		<result property="id" column="id"/>
+		<result property="roomtypeCode" column="roomtypeCode"/>
+		<result property="roomtypeName" column="roomtypeName"/>
+		<result property="roomMessage" column="roomMessage"/>
+		<result property="roomImages" column="roomImages"/>
+		<result property="roomtypePrice" column="roomtypePrice"/>
+		<result property="createdBy" column="createdBy"/>
+		<result property="createDate" column="createDate"/>
+		<result property="modifyBy" column="modifyBy"/>
+		<result property="modifyDate" column="modifyDate"/>
+		
+	</resultMap>
+	
+	
+	<!-- 查询全部房间类型 -->
+	<select id="getAllRoomtype" resultMap="roomtypeList">
+	select * from hotel_roomtype
+	</select>
+	<!-- 通过房间类型id查询房间类型 -->
+	<select id="getRoomtypeById" resultType="com.ssm.pojo.Roomtype">
+	select * from hotel_roomtype where id=#{id}
+	</select>
+	<!--添加   -->
+	<insert id="add" parameterType="com.ssm.pojo.Roomtype">
+		insert into hotel_roomtype (roomtypeCode,roomtypeName,roomMessage,roomImages,
+		roomtypePrice,createdBy,createDate) 
+				values (#{roomtypeCode},#{roomtypeName},#{roomMessage},#{roomImages},#{roomtypePrice},
+				#{createdBy},#{creationDate})
+	</insert>
+	<!-- /更新房间类型信息 -->
+	<update id="modifyRoomtype" parameterType="com.ssm.pojo.Roomtype">
+	 update hotel_roomtype 
+		 <trim prefix="set" suffixOverrides="," suffix="where id = #{id}">
+	 		<if test="roomtypeCode != null">roomtypeCode=#{roomtypeCode},</if>
+			<if test="roomtypeName != null">roomtypeName=#{roomtypeName},</if>
+			<if test="roomMessage != null">roomMessage=#{roomMessage},</if>
+			<if test="roomImages != null">roomImagesroomImages=#{roomImages},</if>
+			<if test="roomtypePrice != null">roomtypePrice=#{roomtypePrice},</if>
+			<if test="modifyBy != null">modifyBy=#{modifyBy},</if>
+			<if test="modifyDate != null">modifyDate=#{modifyDate},</if>
+			
+		 </trim>
+	</update>
+	
+	<!-- //删除房间类型 -->
+	<delete id="deleteRoomtypeById" parameterType="Integer">
+		delete from hotel_roomtype where id=#{id}
+	</delete>
+</mapper>

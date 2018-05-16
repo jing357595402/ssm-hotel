@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssm.mapper.RoomMapper">
+
+
+	
+	<!-- 获取房间列表信息... -->
+	<resultMap type="com.ssm.mapper.RoomMapper" id="roomList">
+		<result property="id" column="id"/>
+		<result property="roomCode" column="roomCode"/>
+		<result property="roomName" column="roomName"/>
+		<result property="roomType" column="roomType"/>
+		<result property="roomCandition" column="roomCandition"/>
+		<result property="roomCleaner" column="roomCleaner"/>
+	    
+		
+	</resultMap>
+	<!-- 查询全部房间 -->
+	<select id="getAllRoom" resultMap="roomList">
+	select * from hotel_room
+	</select>
+	<!-- 通过roomid查询房间 -->
+	<select id="getRoomById" resultType="com.ssm.pojo.Room">
+	select * from hotel_room where id=#{id}
+	</select>
+	<!-- 通过roomCode查询房间 -->
+	<select id="getRoomByCode" resultType="com.ssm.pojo.Room">
+	select * from hotel_room where roomCode=#{roomCode}
+	</select>
+	<!-- //通过房间类型查询房间 -->
+	<select id="getRoomByTypeId" resultMap="roomList">
+	select * from Hotel_room where roomType = #{roomType}
+	</select>
+	
+	
+	<!--添加  -->
+	<insert id="add" parameterType="com.ssm.pojo.Room">
+		insert into hotel_room (roomCode,roomName,roomType,roomCandition,roomCleaner) 
+				values (#{roomCode},#{roomName},#{roomType},#{roomCandition},#{roomCleaner})
+	</insert>
+	
+	<!-- //更新房间信息 -->
+	<update id="modifyRoom" parameterType="com.ssm.pojo.Room">
+	 update hotel_room 
+		 <trim prefix="set" suffixOverrides="," suffix="where id = #{id}">
+	 		<if test="roomCode != null">roomCode=#{roomCode},</if>
+			<if test="roomName != null">roomName=#{roomName},</if>
+			<if test="roomType != null">roomType=#{roomType},</if>
+			<if test="roomCandition != null">roomCandition=#{roomCandition},</if>
+			<if test="roomCleaner != null">roomCleaner=#{roomCleaner},</if>
+			
+		 </trim>
+	</update>
+	<!-- //删除房间 -->
+	<delete id="deleteRoomById" parameterType="Integer">
+		delete from hotel_room where id=#{id}
+	</delete>
+</mapper>

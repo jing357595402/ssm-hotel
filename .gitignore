@@ -1,0 +1,35 @@
+#编译出来的class文件
+*.class
+#packge file
+#由于本项目使用的是maven，所以不包含jar，但是使用支付宝支付时需要将支付宝sdk的jar上传
+#*.jar
+*.war
+*.ear
+
+#kdff3 ignore
+*.orig
+
+#maven ignore
+target/
+
+#eclipse ignore
+.settings/
+.project
+.classpath
+
+#idea ignore
+.idea/
+/idea/
+*.ipr
+*.iml
+*.iws
+
+#temp file
+*.log
+*.cache
+*.patch
+*.tmp
+
+# system ignore
+.DS_Store
+Thumbs.db

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssm.mapper.OrderMapper">
+<resultMap type="com.ssm.pojo.Position" id="orderList">
+		<result property="id" column="id"/>
+		<result property="orderNumber" column="orderNumber"/>
+		<result property="roomCode" column="roomCode"/>
+		<result property="checkinDate" column="checkinDate"/>
+		<result property="checkoutDate" column="checkoutDate"/>
+		<result property="orderCustomer" column="orderCustomer"/>
+	    <result property="entilPrice" column="entilPrice"/>
+		<result property="createdBy" column="createdBy"/>
+		<result property="creationDate" column="creationDate"/>
+		<result property="modifyBy" column="modifyBy"/>
+		<result property="modifyDate" column="modifyDate"/>
+		
+		
+	</resultMap>
+	<!-- 查询全部订单 -->
+	<select id="getAllOrder" resultMap="orderList">
+	select * from hotel_order
+	</select>
+	<!-- 通过订单id查询订单 -->
+	<select id="getOrderById" resultType="com.ssm.pojo.Order">
+	select * from hotel_order where id = #{id}
+	</select>
+	<!-- 通过订单号查询订单 -->
+	<select id="getOrderByNumber" resultType="com.ssm.pojo.Order">
+	select * from hotel_order where orderNumber = #{orderNumber}
+	</select>
+	<!-- 通过客户查询订单 -->
+    <select id="getOrderByCus" resultMap="orderList">
+    select * from hotel_order where orderCustomer =#{orderCustomer}
+    </select>
+    
+	<!--添加  -->
+	<insert id="add" parameterType="com.ssm.pojo.Order">
+		insert into hotel_user (orderNumber,roomCode,checkinDate,checkoutDate,orderCustomer,entilPrice,
+								createdBy,creationDate) 
+				values (#{orderNumber},#{roomCode},#{checkinDate},#{checkoutDate},#{orderCustomer},#{entilPrice},
+				#{createdBy},#{creationDate})
+	</insert>
+	
+	<!-- //更新订单信息 -->
+	<update id="modifyPosition" parameterType="com.ssm.pojo.Order">
+	 update hotel_order 
+		 <trim prefix="set" suffixOverrides="," suffix="where id = #{id}">
+	 		<if test="orderNumber != null">orderNumber=#{orderNumber},</if>
+			<if test="roomCode != null">roomCode=#{roomCode},</if>
+			<if test="checkinDate != null">checkinDate=#{checkinDate},</if>
+			<if test="checkoutDate != null">checkoutDate=#{checkoutDate},</if>
+			<if test="orderCustomer != null">orderCustomer=#{orderCustomer},</if>
+			<if test="entilPrice != null">entilPrice=#{entilPrice},</if>
+			<if test="modifyBy != null">modifyBy=#{modifyBy},</if>
+			<if test="modifyDate != null">modifyDate=#{modifyDate},</if>
+			</trim>
+	</update>
+	<!-- //删除订单 -->
+	<delete id="deleteOrderById" parameterType="Integer">
+		delete from hotel_order where id = #{id}
+	</delete>
+
+</mapper>

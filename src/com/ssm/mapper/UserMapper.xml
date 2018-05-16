@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssm.mapper.UserMapper">
+
+
+	
+	<!-- 获取用户列表信息... -->
+	<resultMap type="com.ssm.pojo.User" id="userList">
+		<result property="id" column="id"/>
+		<result property="userCode" column="userCode"/>
+		<result property="userName" column="userName"/>
+		<result property="userPassword" column="userPassword"/>
+		<result property="phone" column="phone"/>
+		<result property="birthday" column="birthday"/>
+	    <result property="address" column="address"/>
+		<result property="gender" column="gender"/>
+		<result property="userDepartment" column="userDepartment"/>
+		<result property="userPosition" column="userPosition"/>
+		<result property="wageCandition" column="wageCandition"/>
+		<result property="createdBy" column="createdBy"/>
+		<result property="creationDate" column="creationDate"/>
+		<result property="modifyBy" column="modifyBy"/>
+		<result property="modifyDate" column="modifyDate"/>
+		
+	</resultMap>
+	<!-- 登录 -->
+	<select id="getLoginUser" resultType="com.ssm.pojo.User">
+		select * from hotel_user where userCode=#{userCode} and userPassword=#{userPassword} and userDepartment=#{userDepartment} 
+	</select>
+	<!-- 查询全部用户 -->
+	<select id="getAllUser" resultMap="userList">
+	select * from hotel_user
+	</select>
+	<!-- 通过用户id查询用户 -->
+	<select id="getUserById" resultType="com.ssm.pojo.User">
+	select * from hotel_user where id=#{id}
+	</select>
+    <!-- 通过部门查询用户 -->
+    <select id="getUserByDp" resultMap="userList">
+	select * from hotel_user where userDepartment=#{userDepartment}
+	</select>
+    <!-- 通过职位查询用户 -->
+    <select id="getUserByPs" resultMap="userList">
+	select * from hotel_user where userPosition=#{userPosition}
+	</select>
+    <!-- 通过用户姓名查询用户 -->
+    <select id="getUserByName" resultType="com.ssm.pojo.User">
+	select * from hotel_user where userName=#{userName}
+	</select>
+	<!-- 通过用户code查询用户 -->
+    <select id="getUserByCode" resultType="com.ssm.pojo.User">
+	select * from hotel_user where userCode=#{userCode}
+	</select>
+	<!--添加  注册 -->
+	<insert id="add" parameterType="com.ssm.pojo.User">
+		insert into hotel_user (userCode,userName,userPassword,gender,birthday,phone,
+								address,userDepartment,userPosition,wageCandition,createdBy,creationDate) 
+				values (#{userCode},#{userName},#{userPassword},#{gender},#{birthday},#{phone},
+				#{address},#{userDepartment},#{userPosition},#{wageCandition},#{createdBy},#{creationDate})
+	</insert>
+	
+	<!-- 更新用户信息 -->
+	<update id="modifyUser" parameterType="com.ssm.pojo.User">
+	 update hotel_user 
+		 <trim prefix="set" suffixOverrides="," suffix="where id = #{id}">
+	 		<if test="userCode != null">userCode=#{userCode},</if>
+			<if test="userName != null">userName=#{userName},</if>
+			<if test="userPassword != null">userPassword=#{userPassword},</if>
+			<if test="gender != null">gender=#{gender},</if>
+			<if test="birthday != null">birthday=#{birthday},</if>
+			<if test="phone != null">phone=#{phone},</if>
+			<if test="address != null">address=#{address},</if>
+			<if test="userDepartment != null">userDepartment=#{userDepartment},</if>
+			<if test="userPosition != null">userPosition=#{userPosition},</if>
+			<if test="wageCandition != null">wageCandition=#{wageCandition},</if>
+			<if test="modifyBy != null">modifyBy=#{modifyBy},</if>
+			<if test="modifyDate != null">modifyDate=#{modifyDate},</if>
+			
+		 </trim>
+	</update>
+	<!-- 修改密码 -->
+	<update id="updatePwd" parameterType="Integer">
+		update hotel_user set userPassword=#{userPassword} where id=#{id}
+	</update>
+	<!-- //删除用户 -->
+	<delete id="deleteUserById" parameterType="Integer">
+		delete from hotel_user where id=#{id}
+	</delete>
+</mapper>

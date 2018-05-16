@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssm.mapper.PositionMapper">
+
+<resultMap type="com.ssm.pojo.Position" id="positionList">
+		<result property="positionid" column="positionid"/>
+		<result property="positionCode" column="positionCode"/>
+		<result property="positionName" column="positionName"/>
+		<result property="positionWage" column="positionWage"/>
+		<result property="createdBy" column="createdBy"/>
+		<result property="creationDate" column="creationDate"/>
+		<result property="modifyBy" column="modifyBy"/>
+		<result property="modifyDate" column="modifyDate"/>
+		
+		
+	</resultMap>
+	<!-- 通过id查询职位 -->
+	<select id="getPositionById" resultType="com.ssm.pojo.Position">
+	select * from hotel_position where positionid = #{positionid}
+	</select>
+    <!-- 查询全部职位 -->
+    <select id="getAllPositon" resultMap="positionList">
+    select * from hotel_position
+    </select>
+	<!--添加  -->
+	<insert id="add" parameterType="com.ssm.pojo.Position">
+		insert into hotel_position (positionCode,positionName,positionWage,
+		createdBy,creationDate) 
+				values (#{positionCode},#{positionName},#{positionWage},#{createdBy},#{creationDate})
+	</insert>
+	
+	<!-- //更新职位信息 -->
+	<update id="modifyPosition" parameterType="com.ssm.pojo.Position">
+	 update hotel_position 
+		 <trim prefix="set" suffixOverrides="," suffix="where positionid = #{positionid}">
+	 		<if test="positionCode != null">positionCode=#{positionCode},</if>
+			<if test="positionName != null">positionName=#{positionName},</if>
+			<if test="positionWage != null">positionWage=#{positionWage},</if>
+			<if test="modifyBy != null">modifyBy=#{modifyBy},</if>
+			<if test="modifyDate != null">modifyDate=#{modifyDate},</if>
+			
+		 </trim>
+	</update>
+	<!-- //删除职位 -->
+	<delete id="deletePositionById" parameterType="Integer">
+		delete from hotel_position where positionid = #{positionid}
+	</delete>
+</mapper>
